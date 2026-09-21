@@ -111,7 +111,7 @@
   .side-user{border-top:1px solid rgba(255,255,255,.1);padding-top:14px;}
   .side-user .who{font-size:13.5px;font-weight:700;color:#fff;}
   .side-user .role{font-size:11.5px;color:#9db3c8;margin-bottom:10px;}
-  .switch-btn{font-size:12.5px;color:#9db3c8;background:none;border:none;cursor:pointer;padding:0;text-decoration:underline;}
+  .switch-btn{font-size:12.5px;color:#9db3c8;background:none;border:none;cursor:pointer;padding:0;text-decoration:underline;display:block;margin-bottom:6px;}
 
   main.content{flex:1;padding:30px 36px 60px;max-width:1180px;}
   .topline{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;flex-wrap:wrap;gap:14px;}
@@ -144,14 +144,14 @@
   .panel h2{font-size:16.5px;margin:0 0 16px;color:var(--navy);font-weight:600;}
 
   .mat-row{
-    display:flex;align-items:center;gap:14px;padding:13px 8px;border-bottom:1px solid var(--line);cursor:pointer;
+    display:flex;align-items:center;gap:14px;padding:13px 8px;border-bottom:1px solid var(--line);cursor:pointer;flex-wrap:wrap;
   }
   .mat-row:last-child{border-bottom:none;}
   .mat-row:hover{background:#faf8f3;}
   .mat-row .avatar{width:38px;height:38px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0;}
   .mat-row .info{flex:1;min-width:0;}
   .mat-row .name{font-weight:700;font-size:14.5px;color:var(--ink);}
-  .mat-row .step{font-size:12.5px;color:var(--slate);}
+  .mat-row .step{font-size:12.5px;color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .progress-track{width:90px;height:6px;border-radius:4px;background:var(--line);overflow:hidden;flex-shrink:0;}
   .progress-fill{height:100%;background:var(--gold);border-radius:4px;}
   .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;flex-shrink:0;}
@@ -166,16 +166,18 @@
   .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
   .legend-item .cnt{margin-left:auto;font-weight:700;color:var(--navy);}
 
-  /* new enrollment */
+  /* forms */
   .form-card{max-width:480px;}
   .field{margin-bottom:18px;}
   .field label{display:block;font-size:13px;font-weight:700;color:var(--navy);margin-bottom:6px;}
-  .field input{
+  .field input, .field select{
     width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14.5px;
     font-family:inherit;color:var(--ink);background:var(--white);
   }
-  .field input:focus{outline:none;border-color:var(--gold);}
+  .field input:focus, .field select:focus{outline:none;border-color:var(--gold);}
   .hint{font-size:12px;color:var(--slate);margin-top:6px;}
+  .checkline{display:flex;align-items:center;gap:7px;font-weight:600;font-size:13px;color:var(--ink);}
+  .checkline input{width:auto;}
 
   /* detail / checklist */
   .detail-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px;gap:16px;flex-wrap:wrap;}
@@ -198,7 +200,8 @@
   .step-title{font-weight:700;font-size:14.5px;color:var(--ink);}
   .step-title.done{color:var(--slate);}
   .step-role{font-size:11.5px;font-weight:700;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;display:inline-block;margin-top:4px;}
-  .step-log{font-size:12px;color:var(--green);margin-top:5px;font-weight:600;}
+  .step-log{font-size:12px;color:var(--green);margin-top:5px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .step-undo{font-size:11.5px;color:var(--red);background:none;border:none;cursor:pointer;text-decoration:underline;font-weight:700;padding:0;}
   .step-cta{margin-top:9px;}
   .step-cta button{
     background:var(--gold);color:var(--navy);border:none;border-radius:8px;padding:8px 14px;
@@ -216,6 +219,7 @@
     position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
     background:var(--navy);color:#fff;padding:12px 20px;border-radius:10px;font-size:13.5px;font-weight:600;
     box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:opacity .2s, transform .2s;z-index:999;
+    max-width:90vw;text-align:center;
   }
   .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
 
@@ -228,7 +232,12 @@
 
   .viewonly-banner{background:var(--blue-light);color:var(--blue);font-size:12.5px;font-weight:700;padding:10px 14px;border-radius:10px;margin-bottom:20px;}
 
-  #mobile-topbar{display:none;}
+  /* usuários */
+  .user-row-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .user-row-actions .btn{padding:7px 12px;font-size:12.5px;}
+  .edit-grid{flex:1 1 100%;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+  @media (max-width:600px){.edit-grid{grid-template-columns:1fr;}}
+
   @media (max-width:760px){
     .shell{flex-direction:column;}
     nav.sidebar{
@@ -252,7 +261,7 @@
   <div class="login-card">
     <div class="brand-mark">A</div>
     <h1>Matrículas · Colégio Adventista de Paulínia</h1>
-    <p class="sub">Selecione seu nome para entrar no painel de acompanhamento.</p>
+    <p class="sub" id="login-sub">Selecione seu nome para entrar no painel de acompanhamento.</p>
     <div id="user-list"></div>
     <div class="login-footer">Acompanhamento interno de novas matrículas</div>
   </div>
@@ -269,10 +278,12 @@
       <button class="nav-item active" data-view="dashboard"><span class="ico">◆</span> Painel</button>
       <button class="nav-item" data-view="nova" id="nav-nova"><span class="ico">＋</span> Nova matrícula</button>
       <button class="nav-item" data-view="arquivo"><span class="ico">▤</span> Arquivo</button>
+      <button class="nav-item" data-view="usuarios" id="nav-usuarios" style="display:none;"><span class="ico">☺</span> Usuários</button>
       <div class="sidebar-spacer"></div>
       <div class="side-user">
         <div class="who" id="side-who">—</div>
         <div class="role" id="side-role">—</div>
+        <button class="switch-btn" id="minha-senha">Alterar minha senha</button>
         <button class="switch-btn" id="switch-user">Trocar usuário</button>
       </div>
     </nav>
@@ -285,11 +296,11 @@
 
 <div class="modal-bg" id="modal-bg">
   <div class="modal">
-    <h3 id="modal-title">Excluir matrícula?</h3>
+    <h3 id="modal-title">Confirmar ação?</h3>
     <p id="modal-text">Essa ação não pode ser desfeita.</p>
     <div class="modal-actions">
       <button class="btn btn-ghost" id="modal-cancel">Cancelar</button>
-      <button class="btn btn-danger" id="modal-confirm">Excluir</button>
+      <button class="btn btn-danger" id="modal-confirm">Confirmar</button>
     </div>
   </div>
 </div>
@@ -298,13 +309,14 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
 import {
   getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc,
-  serverTimestamp, query, orderBy
+  serverTimestamp, query, orderBy, getDocs
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 import { firebaseConfig } from './firebase-config.js';
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const matriculasRef = collection(db, "matriculas");
+const usuariosRef = collection(db, "usuarios");
 
 // ---------------------------------------------------------------
 // DADOS FIXOS
@@ -322,27 +334,38 @@ const ETAPAS = [
   { id:10, nome:"Matrícula finalizada – Prontuário", resp:"Secretaria" },
 ];
 
-const USERS = [
-  { nome:"Alexandre", papel:"Diretor", nivel:"consulta" },
-  { nome:"Alice", papel:"Secretaria", nivel:"total" },
-  { nome:"Daniel", papel:"Tesouraria", nivel:"total", excluir:true },
-  { nome:"Heloisa", papel:"Secretaria", nivel:"total" },
-  { nome:"Jessika", papel:"Secretaria", nivel:"total" },
-  { nome:"Keroli", papel:"Secretaria", nivel:"total" },
-  { nome:"Magali", papel:"Secretaria", nivel:"total" },
-  { nome:"Mayara", papel:"Gestora de Relacionamento", nivel:"total", excluir:true },
-]; // já em ordem alfabética
+const USUARIOS_PADRAO = [
+  { nome:"Alexandre", papel:"Diretor", nivel:"consulta", excluir:false, admin:false },
+  { nome:"Alice", papel:"Secretaria", nivel:"total", excluir:false, admin:false },
+  { nome:"Daniel", papel:"Tesouraria", nivel:"total", excluir:true, admin:true },
+  { nome:"Heloisa", papel:"Secretaria", nivel:"total", excluir:false, admin:false },
+  { nome:"Jessika", papel:"Secretaria", nivel:"total", excluir:false, admin:false },
+  { nome:"Keroli", papel:"Secretaria", nivel:"total", excluir:false, admin:false },
+  { nome:"Magali", papel:"Secretaria", nivel:"total", excluir:false, admin:false },
+  { nome:"Mayara", papel:"Gestora de Relacionamento", nivel:"total", excluir:true, admin:false },
+];
 
 const PIE_COLORS = ["#1e4976","#f0b429","#2d9d6f","#c0392b","#7a5cc9","#0f2a4a","#d98a3d","#3d9ab5","#a3475f","#6b7f2e"];
 
 // ---------------------------------------------------------------
 // ESTADO
 // ---------------------------------------------------------------
+let USERS = [];
+let usersLoaded = false;
+let tentouAutoLogin = false;
 let currentUser = null;
 let currentView = "dashboard";
 let matriculas = [];
 let openMatriculaId = null;
-let pendingDelete = null;
+let pendingAction = null; // { tipo, id }
+
+// login em duas etapas (nome -> senha)
+let loginStage = 'nome'; // 'nome' | 'senha' | 'criar'
+let selectedLoginUser = null;
+
+// painel de usuários
+let editingUserId = null;
+let addingUser = false;
 
 function fmtData(ts){
   if(!ts) return "";
@@ -355,40 +378,191 @@ function iniciais(nome){
 function etapaAtualIndex(mat){
   return mat.etapas.findIndex(e=>!e.concluida);
 }
+function ultimoDoneIndex(mat){
+  let last = -1;
+  for(let i=0;i<mat.etapas.length;i++){
+    if(mat.etapas[i].concluida) last = i; else break;
+  }
+  return last;
+}
 function showToast(msg){
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2600);
+  setTimeout(()=>t.classList.remove('show'), 2800);
 }
+
+// ---------------------------------------------------------------
+// SENHAS (hash com salt individual, via Web Crypto)
+// ---------------------------------------------------------------
+function gerarSalt(){
+  const arr = new Uint8Array(16);
+  crypto.getRandomValues(arr);
+  return Array.from(arr).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+async function hashSenha(senha, salt){
+  const enc = new TextEncoder();
+  const buf = await crypto.subtle.digest('SHA-256', enc.encode(salt + ":" + senha));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+// ---------------------------------------------------------------
+// USUÁRIOS — CARGA INICIAL / SEMENTE
+// ---------------------------------------------------------------
+async function seedUsuariosSeNecessario(){
+  try{
+    const snap = await getDocs(usuariosRef);
+    if(snap.empty){
+      for(const u of USUARIOS_PADRAO){
+        await addDoc(usuariosRef, { ...u, ativo:true, senhaHash:null, senhaSalt:null });
+      }
+    }
+  }catch(e){ console.error("Falha ao criar usuários padrão:", e); }
+}
+
+onSnapshot(usuariosRef, snap=>{
+  USERS = snap.docs.map(d=>({ _id:d.id, ...d.data() }));
+  usersLoaded = true;
+
+  if(currentUser){
+    const atualizado = USERS.find(u=>u._id===currentUser._id);
+    if(atualizado){
+      currentUser = atualizado;
+      atualizarSidebar();
+      render();
+    } else {
+      // o usuário logado foi removido por um administrador
+      localStorage.removeItem('matriculas_user');
+      location.reload();
+    }
+    return;
+  }
+
+  if(!tentouAutoLogin){
+    tentouAutoLogin = true;
+    const savedName = localStorage.getItem('matriculas_user');
+    if(savedName){
+      const u = USERS.find(x=>x.nome===savedName && x.ativo!==false);
+      if(u){ login(u); return; }
+      localStorage.removeItem('matriculas_user');
+    }
+  }
+  renderLoginScreen();
+}, err=>{
+  console.error(err);
+  document.getElementById('login-sub').textContent = 'Não foi possível conectar ao banco de dados. Confira o firebase-config.js e as regras do Firestore.';
+});
 
 // ---------------------------------------------------------------
 // LOGIN
 // ---------------------------------------------------------------
-function renderLogin(){
+function renderLoginScreen(){
   const list = document.getElementById('user-list');
+  const sub = document.getElementById('login-sub');
+  if(!usersLoaded){
+    list.innerHTML = `<div class="empty" style="grid-column:1/-1;">Carregando...</div>`;
+    return;
+  }
+  if(loginStage==='senha' || loginStage==='criar'){
+    sub.textContent = loginStage==='criar' ? 'Primeiro acesso — crie sua senha' : 'Digite sua senha para entrar';
+    renderLoginPasswordForm();
+    return;
+  }
+  sub.textContent = 'Selecione seu nome para entrar no painel de acompanhamento.';
   list.innerHTML = "";
-  USERS.forEach(u=>{
+  const ativos = USERS.filter(u=>u.ativo!==false).sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'));
+  if(ativos.length===0){
+    list.innerHTML = `<div class="empty" style="grid-column:1/-1;">Nenhum usuário cadastrado ainda.</div>`;
+    return;
+  }
+  ativos.forEach(u=>{
     const btn = document.createElement('button');
     btn.className = 'user-btn' + (u.papel==='Diretor' ? ' diretor' : '');
     btn.innerHTML = `<span class="nm">${u.nome}</span><span class="rl">${u.papel}</span>`;
-    btn.onclick = ()=>login(u);
+    btn.onclick = ()=>{
+      selectedLoginUser = u;
+      loginStage = u.senhaHash ? 'senha' : 'criar';
+      renderLoginScreen();
+    };
     list.appendChild(btn);
   });
 }
+
+function renderLoginPasswordForm(){
+  const list = document.getElementById('user-list');
+  const u = selectedLoginUser;
+  const criar = loginStage === 'criar';
+  list.innerHTML = `
+    <div style="grid-column:1/-1;">
+      <button class="switch-btn" id="login-voltar" style="margin-bottom:16px;">← Escolher outro nome</button>
+      <div style="font-weight:800;color:var(--navy);font-size:16px;margin-bottom:16px;">${u.nome}</div>
+      ${criar ? `
+        <div class="field"><label>Crie uma senha (mín. 4 caracteres)</label><input type="password" id="pw1" autocomplete="new-password"></div>
+        <div class="field"><label>Confirme a senha</label><input type="password" id="pw2" autocomplete="new-password"></div>
+        <div class="hint" id="pw-erro" style="color:var(--red);"></div>
+        <button class="btn btn-primary" id="pw-confirmar" style="width:100%;justify-content:center;margin-top:4px;">Criar senha e entrar</button>
+      ` : `
+        <div class="field"><label>Senha</label><input type="password" id="pw1" autocomplete="current-password"></div>
+        <div class="hint" id="pw-erro" style="color:var(--red);"></div>
+        <button class="btn btn-primary" id="pw-confirmar" style="width:100%;justify-content:center;margin-top:4px;">Entrar</button>
+        <div class="hint" style="margin-top:14px;">Esqueceu a senha? Peça para o Daniel redefinir seu acesso.</div>
+      `}
+    </div>
+  `;
+  document.getElementById('login-voltar').onclick = ()=>{
+    loginStage='nome'; selectedLoginUser=null; renderLoginScreen();
+  };
+  const erro = document.getElementById('pw-erro');
+  const submit = async ()=>{
+    erro.textContent = '';
+    if(criar){
+      const p1 = document.getElementById('pw1').value;
+      const p2 = document.getElementById('pw2').value;
+      if(p1.length < 4){ erro.textContent = 'A senha precisa ter pelo menos 4 caracteres.'; return; }
+      if(p1 !== p2){ erro.textContent = 'As senhas não coincidem.'; return; }
+      const salt = gerarSalt();
+      const hash = await hashSenha(p1, salt);
+      await updateDoc(doc(db,'usuarios', u._id), { senhaHash:hash, senhaSalt:salt });
+      login({ ...u, senhaHash:hash, senhaSalt:salt });
+    } else {
+      const p1 = document.getElementById('pw1').value;
+      const hash = await hashSenha(p1, u.senhaSalt);
+      if(hash !== u.senhaHash){ erro.textContent = 'Senha incorreta.'; return; }
+      login(u);
+    }
+  };
+  document.getElementById('pw-confirmar').onclick = submit;
+  list.querySelectorAll('input').forEach(inp=>{
+    inp.addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
+  });
+  list.querySelector('input').focus();
+}
+
 function login(u){
   currentUser = u;
+  loginStage = 'nome';
+  selectedLoginUser = null;
   localStorage.setItem('matriculas_user', u.nome);
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
-  document.getElementById('side-who').textContent = u.nome;
-  document.getElementById('side-role').textContent = u.papel;
-  document.getElementById('nav-nova').style.display = u.nivel==='consulta' ? 'none' : 'flex';
+  atualizarSidebar();
   setView('dashboard');
+}
+function atualizarSidebar(){
+  document.getElementById('side-who').textContent = currentUser.nome;
+  document.getElementById('side-role').textContent = currentUser.papel;
+  document.getElementById('nav-nova').style.display = currentUser.nivel==='consulta' ? 'none' : 'flex';
+  document.getElementById('nav-usuarios').style.display = currentUser.admin ? 'flex' : 'none';
 }
 document.getElementById('switch-user').onclick = ()=>{
   localStorage.removeItem('matriculas_user');
   location.reload();
+};
+document.getElementById('minha-senha').onclick = ()=>{
+  currentView = 'senha';
+  openMatriculaId = null;
+  document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.classList.remove('active'));
+  render();
 };
 
 // ---------------------------------------------------------------
@@ -400,6 +574,8 @@ document.querySelectorAll('.nav-item[data-view]').forEach(btn=>{
 function setView(view){
   currentView = view;
   openMatriculaId = null;
+  editingUserId = null;
+  addingUser = false;
   document.querySelectorAll('.nav-item[data-view]').forEach(b=>{
     b.classList.toggle('active', b.dataset.view===view);
   });
@@ -407,7 +583,7 @@ function setView(view){
 }
 
 // ---------------------------------------------------------------
-// FIRESTORE — CRIAR / ATUALIZAR / EXCLUIR
+// FIRESTORE — MATRÍCULAS
 // ---------------------------------------------------------------
 async function criarMatricula(nomeAluno){
   const etapas = ETAPAS.map(e=>({ id:e.id, concluida:false, concluidoPor:null, concluidoEm:null }));
@@ -433,18 +609,25 @@ async function concluirEtapa(mat, etapaId){
   const todasFeitas = novasEtapas.every(e=>e.concluida);
   const ref = doc(db, "matriculas", mat._id);
   await updateDoc(ref, {
-    etapas: novasEtapas.map(e=>({
-      id:e.id, concluida:e.concluida, concluidoPor:e.concluidoPor,
-      concluidoEm: e.concluidoEm instanceof Date ? serverTimestampSafe(e.concluidoEm) : e.concluidoEm
-    })),
+    etapas: novasEtapas.map(e=>({ id:e.id, concluida:e.concluida, concluidoPor:e.concluidoPor, concluidoEm:e.concluidoEm })),
     status: todasFeitas ? "finalizada" : "andamento",
     finalizadoEm: todasFeitas ? serverTimestamp() : null
   });
   showToast(todasFeitas ? "Matrícula finalizada e enviada ao arquivo" : "Etapa concluída");
 }
-// Firestore não aceita serverTimestamp() dentro de um array diretamente,
-// então gravamos a data/hora local do dispositivo para os itens do checklist.
-function serverTimestampSafe(d){ return d; }
+
+async function desfazerEtapa(mat, etapaId){
+  const novasEtapas = mat.etapas.map(e=>
+    e.id === etapaId ? { ...e, concluida:false, concluidoPor:null, concluidoEm:null } : e
+  );
+  const ref = doc(db, "matriculas", mat._id);
+  await updateDoc(ref, {
+    etapas: novasEtapas.map(e=>({ id:e.id, concluida:e.concluida, concluidoPor:e.concluidoPor, concluidoEm:e.concluidoEm })),
+    status: "andamento",
+    finalizadoEm: null
+  });
+  showToast("Etapa desmarcada");
+}
 
 async function excluirMatricula(id){
   await deleteDoc(doc(db, "matriculas", id));
@@ -453,7 +636,19 @@ async function excluirMatricula(id){
 }
 
 // ---------------------------------------------------------------
-// LISTENER EM TEMPO REAL
+// FIRESTORE — USUÁRIOS (ações do painel de administração)
+// ---------------------------------------------------------------
+async function excluirUsuario(id){
+  await deleteDoc(doc(db, "usuarios", id));
+  showToast("Usuário removido");
+}
+async function resetarSenhaUsuario(id){
+  await updateDoc(doc(db, "usuarios", id), { senhaHash:null, senhaSalt:null });
+  showToast("Senha redefinida — a pessoa vai criar uma nova senha no próximo acesso");
+}
+
+// ---------------------------------------------------------------
+// LISTENER EM TEMPO REAL — MATRÍCULAS
 // ---------------------------------------------------------------
 const q = query(matriculasRef, orderBy("criadoEm","desc"));
 onSnapshot(q, snap=>{
@@ -461,7 +656,8 @@ onSnapshot(q, snap=>{
   render();
 }, err=>{
   console.error(err);
-  document.getElementById('content').innerHTML =
+  const content = document.getElementById('content');
+  if(content) content.innerHTML =
     `<div class="panel"><h2>Não foi possível conectar ao banco de dados</h2>
      <p style="color:var(--slate);font-size:13.5px;">Confira se o arquivo <code>firebase-config.js</code>
      foi preenchido corretamente e se as regras do Firestore permitem acesso.
@@ -478,6 +674,8 @@ function render(){
   if(currentView === 'dashboard'){ content.innerHTML = viewDashboard(); attachDashboardEvents(); return; }
   if(currentView === 'nova'){ content.innerHTML = viewNova(); attachNovaEvents(); return; }
   if(currentView === 'arquivo'){ content.innerHTML = viewArquivo(); attachArquivoEvents(); return; }
+  if(currentView === 'usuarios'){ content.innerHTML = viewUsuarios(); attachUsuariosEvents(); return; }
+  if(currentView === 'senha'){ content.innerHTML = viewSenha(); attachSenhaEvents(); return; }
 }
 
 // ---------------------------------------------------------------
@@ -487,7 +685,6 @@ function viewDashboard(){
   const ativas = matriculas.filter(m=>m.status==='andamento');
   const finalizadas = matriculas.filter(m=>m.status==='finalizada');
 
-  // distribuição por etapa atual
   const dist = ETAPAS.map(e=>({...e, count:0}));
   ativas.forEach(m=>{
     const idx = etapaAtualIndex(m);
@@ -533,13 +730,19 @@ function rowMatricula(m){
   const idx = etapaAtualIndex(m);
   const doneCount = m.etapas.filter(e=>e.concluida).length;
   const pct = Math.round((doneCount/ETAPAS.length)*100);
-  const etapaLabel = idx>=0 ? ETAPAS[idx].nome : "Finalizada";
+  const etapaAtual = idx>=0 ? ETAPAS[idx].nome : null;
+  const ultimoIdx = ultimoDoneIndex(m);
+  const ultimaEtapa = ultimoIdx>=0 ? m.etapas[ultimoIdx] : null;
+  const ultimaLinha = ultimaEtapa
+    ? `Última concluída: ${ETAPAS.find(e=>e.id===ultimaEtapa.id).nome} — ${ultimaEtapa.concluidoPor}`
+    : 'Nenhuma etapa concluída ainda';
   return `
     <div class="mat-row" data-id="${m._id}">
       <div class="avatar">${iniciais(m.aluno)}</div>
       <div class="info">
         <div class="name">${m.aluno}</div>
-        <div class="step">${etapaLabel}</div>
+        <div class="step">${m.status==='finalizada' ? 'Processo finalizado' : 'Etapa atual: '+etapaAtual}</div>
+        <div class="step">${ultimaLinha}</div>
       </div>
       <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
       <span class="badge ${m.status==='finalizada'?'finalizada':'andamento'}">${m.status==='finalizada'?'Finalizada':doneCount+'/'+ETAPAS.length}</span>
@@ -624,6 +827,7 @@ function viewDetalhe(id){
   const mat = matriculas.find(m=>m._id===id);
   if(!mat) return `<div class="empty">Matrícula não encontrada.</div>`;
   const idx = etapaAtualIndex(mat);
+  const lastDoneIndex = ultimoDoneIndex(mat);
   const podeExcluir = currentUser.excluir === true;
   const podeConcluir = currentUser.nivel !== 'consulta';
 
@@ -631,13 +835,14 @@ function viewDetalhe(id){
     const est = mat.etapas.find(x=>x.id===e.id);
     const done = est && est.concluida;
     const ready = !done && i===idx && podeConcluir;
+    const podeDesfazer = done && i===lastDoneIndex && podeConcluir;
     return `
       <div class="step-row">
         <div class="step-check ${done?'done':''} ${ready?'ready':''}" data-etapa="${e.id}">${done?'✓':''}</div>
         <div class="step-body">
           <div class="step-title ${done?'done':''}">${e.nome}</div>
           <span class="step-role">${e.resp}</span>
-          ${done ? `<div class="step-log">Concluído por ${est.concluidoPor} em ${fmtData(est.concluidoEm)}</div>` : ''}
+          ${done ? `<div class="step-log">Concluído por ${est.concluidoPor} em ${fmtData(est.concluidoEm)}${podeDesfazer ? ` <button class="step-undo" data-desfazer="${e.id}">Desfazer</button>` : ''}</div>` : ''}
           ${ready ? `<div class="step-cta"><button data-etapa="${e.id}" class="btn-concluir">Marcar como concluída</button></div>` : ''}
         </div>
       </div>
@@ -669,13 +874,20 @@ function attachDetalheEvents(){
     };
   });
 
+  document.querySelectorAll('[data-desfazer]').forEach(el=>{
+    el.onclick = ()=>{
+      const mat = matriculas.find(m=>m._id===openMatriculaId);
+      desfazerEtapa(mat, parseInt(el.dataset.desfazer,10));
+    };
+  });
+
   const del = document.getElementById('btn-excluir');
   if(del) del.onclick = ()=>{
     const mat = matriculas.find(m=>m._id===openMatriculaId);
-    pendingDelete = mat._id;
-    document.getElementById('modal-title').textContent = 'Excluir matrícula?';
-    document.getElementById('modal-text').textContent = `A matrícula de "${mat.aluno}" será excluída permanentemente, incluindo todo o histórico de etapas. Essa ação não pode ser desfeita.`;
-    document.getElementById('modal-bg').classList.add('show');
+    abrirConfirm('excluir-matricula', mat._id,
+      'Excluir matrícula?',
+      `A matrícula de "${mat.aluno}" será excluída permanentemente, incluindo todo o histórico de etapas. Essa ação não pode ser desfeita.`,
+      'Excluir');
   };
 }
 
@@ -709,27 +921,231 @@ function attachArquivoEvents(){
 }
 
 // ---------------------------------------------------------------
-// MODAL EXCLUSÃO
+// VIEW: ALTERAR MINHA SENHA
 // ---------------------------------------------------------------
+function viewSenha(){
+  return `
+    <div class="topline"><div><h1>Alterar minha senha</h1><p>Sua senha protege o acesso com o seu nome.</p></div></div>
+    <div class="panel form-card">
+      <div class="field"><label>Senha atual</label><input type="password" id="senha-atual" autocomplete="current-password"></div>
+      <div class="field"><label>Nova senha (mín. 4 caracteres)</label><input type="password" id="senha-nova1" autocomplete="new-password"></div>
+      <div class="field"><label>Confirmar nova senha</label><input type="password" id="senha-nova2" autocomplete="new-password"></div>
+      <div class="hint" id="senha-erro" style="color:var(--red);"></div>
+      <button class="btn btn-primary" id="btn-salvar-senha" style="width:100%;justify-content:center;">Salvar nova senha</button>
+    </div>
+  `;
+}
+function attachSenhaEvents(){
+  const erro = document.getElementById('senha-erro');
+  document.getElementById('btn-salvar-senha').onclick = async ()=>{
+    erro.textContent = '';
+    const atual = document.getElementById('senha-atual').value;
+    const nova1 = document.getElementById('senha-nova1').value;
+    const nova2 = document.getElementById('senha-nova2').value;
+    const hashAtual = await hashSenha(atual, currentUser.senhaSalt);
+    if(hashAtual !== currentUser.senhaHash){ erro.textContent = 'Senha atual incorreta.'; return; }
+    if(nova1.length < 4){ erro.textContent = 'A nova senha precisa ter pelo menos 4 caracteres.'; return; }
+    if(nova1 !== nova2){ erro.textContent = 'As senhas novas não coincidem.'; return; }
+    const salt = gerarSalt();
+    const hash = await hashSenha(nova1, salt);
+    await updateDoc(doc(db,'usuarios', currentUser._id), { senhaHash:hash, senhaSalt:salt });
+    showToast('Senha alterada com sucesso');
+    setView('dashboard');
+  };
+}
+
+// ---------------------------------------------------------------
+// VIEW: USUÁRIOS (somente administrador)
+// ---------------------------------------------------------------
+function viewUsuarios(){
+  if(!currentUser.admin){
+    return `<div class="viewonly-banner">Você não tem acesso a esta área.</div>`;
+  }
+  const lista = [...USERS].sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'));
+  return `
+    <div class="topline">
+      <div><h1>Usuários</h1><p>Gerencie o acesso da equipe, permissões e senhas</p></div>
+      <button class="btn btn-primary" id="btn-add-usuario">＋ Adicionar usuário</button>
+    </div>
+    ${addingUser ? formNovoUsuario() : ''}
+    <div class="panel">
+      ${lista.map(u=> u._id===editingUserId ? formEditarUsuario(u) : linhaUsuario(u)).join('')}
+    </div>
+  `;
+}
+
+function linhaUsuario(u){
+  const detalhes = [
+    u.papel,
+    u.nivel==='consulta' ? 'Somente consulta' : 'Acesso completo',
+    u.excluir ? 'Pode excluir matrículas' : null,
+    u.admin ? 'Administrador' : null,
+    u.senhaHash ? null : 'Sem senha definida ainda',
+    u.ativo===false ? 'Inativo' : null,
+  ].filter(Boolean).join(' · ');
+  return `
+    <div class="mat-row" style="cursor:default;">
+      <div class="avatar">${iniciais(u.nome)}</div>
+      <div class="info">
+        <div class="name">${u.nome}</div>
+        <div class="step">${detalhes}</div>
+      </div>
+      <div class="user-row-actions">
+        <button class="btn btn-ghost" data-edit="${u._id}">Editar</button>
+        <button class="btn btn-ghost" data-reset="${u._id}">Redefinir senha</button>
+        <button class="btn btn-danger" data-del="${u._id}">Excluir</button>
+      </div>
+    </div>
+  `;
+}
+
+function formEditarUsuario(u){
+  return `
+    <div class="mat-row" style="cursor:default;">
+      <div class="edit-grid">
+        <div class="field" style="margin-bottom:0;"><label>Nome</label><input type="text" id="edit-nome" value="${u.nome}"></div>
+        <div class="field" style="margin-bottom:0;"><label>Papel</label><input type="text" id="edit-papel" value="${u.papel}"></div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Nível de acesso</label>
+          <select id="edit-nivel">
+            <option value="total" ${u.nivel!=='consulta'?'selected':''}>Acesso completo</option>
+            <option value="consulta" ${u.nivel==='consulta'?'selected':''}>Somente consulta</option>
+          </select>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;justify-content:center;">
+          <label class="checkline"><input type="checkbox" id="edit-excluir" ${u.excluir?'checked':''}> Pode excluir matrículas</label>
+          <label class="checkline"><input type="checkbox" id="edit-admin" ${u.admin?'checked':''}> Administrador (gerencia usuários)</label>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-primary" data-save="${u._id}">Salvar</button>
+        <button class="btn btn-ghost" id="edit-cancelar">Cancelar</button>
+      </div>
+    </div>
+  `;
+}
+
+function formNovoUsuario(){
+  return `
+    <div class="panel" style="margin-bottom:18px;">
+      <h2>Novo usuário</h2>
+      <div class="edit-grid">
+        <div class="field" style="margin-bottom:0;"><label>Nome</label><input type="text" id="novo-nome" placeholder="Nome completo"></div>
+        <div class="field" style="margin-bottom:0;"><label>Papel</label><input type="text" id="novo-papel" placeholder="Ex.: Secretaria"></div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Nível de acesso</label>
+          <select id="novo-nivel">
+            <option value="total">Acesso completo</option>
+            <option value="consulta">Somente consulta</option>
+          </select>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;justify-content:center;">
+          <label class="checkline"><input type="checkbox" id="novo-excluir"> Pode excluir matrículas</label>
+          <label class="checkline"><input type="checkbox" id="novo-admin"> Administrador (gerencia usuários)</label>
+        </div>
+      </div>
+      <div class="hint" style="margin-bottom:14px;">A pessoa vai criar a própria senha no primeiro acesso.</div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-primary" id="novo-salvar">Salvar usuário</button>
+        <button class="btn btn-ghost" id="novo-cancelar">Cancelar</button>
+      </div>
+    </div>
+  `;
+}
+
+function attachUsuariosEvents(){
+  const addBtn = document.getElementById('btn-add-usuario');
+  if(addBtn) addBtn.onclick = ()=>{ addingUser=true; editingUserId=null; render(); };
+
+  const novoCancelar = document.getElementById('novo-cancelar');
+  if(novoCancelar) novoCancelar.onclick = ()=>{ addingUser=false; render(); };
+
+  const novoSalvar = document.getElementById('novo-salvar');
+  if(novoSalvar) novoSalvar.onclick = async ()=>{
+    const nome = document.getElementById('novo-nome').value.trim();
+    const papel = document.getElementById('novo-papel').value.trim() || 'Equipe';
+    if(nome.length < 2){ showToast('Digite o nome da pessoa'); return; }
+    if(USERS.some(u=>u.nome.toLowerCase()===nome.toLowerCase())){ showToast('Já existe um usuário com esse nome'); return; }
+    const nivel = document.getElementById('novo-nivel').value;
+    const excluir = document.getElementById('novo-excluir').checked;
+    const admin = document.getElementById('novo-admin').checked;
+    await addDoc(usuariosRef, { nome, papel, nivel, excluir, admin, ativo:true, senhaHash:null, senhaSalt:null });
+    addingUser = false;
+    showToast('Usuário adicionado — ele(a) cria a senha no primeiro acesso');
+  };
+
+  document.querySelectorAll('[data-edit]').forEach(el=>{
+    el.onclick = ()=>{ editingUserId = el.dataset.edit; addingUser=false; render(); };
+  });
+  const cancelarEdit = document.getElementById('edit-cancelar');
+  if(cancelarEdit) cancelarEdit.onclick = ()=>{ editingUserId=null; render(); };
+
+  document.querySelectorAll('[data-save]').forEach(el=>{
+    el.onclick = async ()=>{
+      const id = el.dataset.save;
+      const nome = document.getElementById('edit-nome').value.trim();
+      const papel = document.getElementById('edit-papel').value.trim();
+      if(nome.length < 2){ showToast('Digite o nome da pessoa'); return; }
+      const nivel = document.getElementById('edit-nivel').value;
+      const excluir = document.getElementById('edit-excluir').checked;
+      const admin = document.getElementById('edit-admin').checked;
+      await updateDoc(doc(db,'usuarios', id), { nome, papel, nivel, excluir, admin });
+      editingUserId = null;
+      showToast('Usuário atualizado');
+    };
+  });
+
+  document.querySelectorAll('[data-reset]').forEach(el=>{
+    el.onclick = ()=>{
+      const u = USERS.find(x=>x._id===el.dataset.reset);
+      abrirConfirm('resetar-senha', u._id,
+        'Redefinir senha?',
+        `"${u.nome}" vai precisar criar uma nova senha no próximo acesso. A senha atual deixará de funcionar imediatamente.`,
+        'Redefinir');
+    };
+  });
+
+  document.querySelectorAll('[data-del]').forEach(el=>{
+    el.onclick = ()=>{
+      const u = USERS.find(x=>x._id===el.dataset.del);
+      if(u._id === currentUser._id){ showToast('Você não pode excluir o próprio usuário'); return; }
+      abrirConfirm('excluir-usuario', u._id,
+        'Excluir usuário?',
+        `"${u.nome}" perderá o acesso ao sistema. Essa ação não pode ser desfeita.`,
+        'Excluir');
+    };
+  });
+}
+
+// ---------------------------------------------------------------
+// MODAL DE CONFIRMAÇÃO (genérico)
+// ---------------------------------------------------------------
+function abrirConfirm(tipo, id, titulo, texto, botaoTexto){
+  pendingAction = { tipo, id };
+  document.getElementById('modal-title').textContent = titulo;
+  document.getElementById('modal-text').textContent = texto;
+  document.getElementById('modal-confirm').textContent = botaoTexto || 'Confirmar';
+  document.getElementById('modal-bg').classList.add('show');
+}
 document.getElementById('modal-cancel').onclick = ()=>{
   document.getElementById('modal-bg').classList.remove('show');
-  pendingDelete = null;
+  pendingAction = null;
 };
-document.getElementById('modal-confirm').onclick = ()=>{
-  if(pendingDelete) excluirMatricula(pendingDelete);
+document.getElementById('modal-confirm').onclick = async ()=>{
+  if(pendingAction){
+    if(pendingAction.tipo === 'excluir-matricula') await excluirMatricula(pendingAction.id);
+    if(pendingAction.tipo === 'excluir-usuario') await excluirUsuario(pendingAction.id);
+    if(pendingAction.tipo === 'resetar-senha') await resetarSenhaUsuario(pendingAction.id);
+  }
   document.getElementById('modal-bg').classList.remove('show');
-  pendingDelete = null;
+  pendingAction = null;
 };
 
 // ---------------------------------------------------------------
 // INÍCIO
 // ---------------------------------------------------------------
-renderLogin();
-const savedName = localStorage.getItem('matriculas_user');
-if(savedName){
-  const u = USERS.find(x=>x.nome===savedName);
-  if(u) login(u);
-}
+renderLoginScreen();
+seedUsuariosSeNecessario();
 </script>
 </body>
 </html>
