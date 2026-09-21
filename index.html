@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Matrículas · Colégio Adventista de Paulínia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0f2a4a;
+    --blue:#1e4976;
+    --blue-light:#e8f0f9;
+    --gold:#f0b429;
+    --gold-dark:#c98f10;
+    --cream:#f7f5f0;
+    --ink:#233240;
+    --slate:#5c6b7a;
+    --line:#e3ddd0;
+    --green:#2d9d6f;
+    --green-light:#e6f6ef;
+    --red:#c0392b;
+    --red-light:#fbeae8;
+    --white:#ffffff;
+    --radius:14px;
+    --shadow:0 1px 2px rgba(15,42,74,.06), 0 8px 24px rgba(15,42,74,.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:'Manrope',sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  h1,h2,h3,.serif{font-family:'Fraunces',serif;}
+  button{font-family:inherit;}
+  ::-webkit-scrollbar{width:10px;height:10px;}
+  ::-webkit-scrollbar-thumb{background:#d8d1c0;border-radius:8px;}
+
+  /* ---------- LOGIN ---------- */
+  #login-screen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 20px;
+    background:
+      radial-gradient(circle at 15% 15%, rgba(240,180,41,.14), transparent 45%),
+      radial-gradient(circle at 85% 85%, rgba(30,73,118,.12), transparent 45%),
+      var(--cream);
+  }
+  .login-card{
+    width:100%;
+    max-width:480px;
+    background:var(--white);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:40px 36px 32px;
+    border:1px solid var(--line);
+  }
+  .brand-mark{
+    width:52px;height:52px;border-radius:12px;
+    background:linear-gradient(155deg,var(--navy),var(--blue));
+    color:var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;font-weight:600;font-size:26px;
+    margin-bottom:18px;
+  }
+  .login-card h1{font-size:26px;font-weight:600;margin:0 0 4px;color:var(--navy);line-height:1.25;}
+  .login-card p.sub{margin:0 0 26px;color:var(--slate);font-size:14.5px;}
+  #user-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .user-btn{
+    display:flex;flex-direction:column;align-items:flex-start;gap:2px;
+    padding:13px 14px;border-radius:11px;border:1.5px solid var(--line);
+    background:var(--white);cursor:pointer;text-align:left;
+    transition:border-color .15s, background .15s, transform .1s;
+  }
+  .user-btn:hover{border-color:var(--gold);background:#fffbf0;}
+  .user-btn:active{transform:scale(.98);}
+  .user-btn .nm{font-weight:700;font-size:15px;color:var(--navy);}
+  .user-btn .rl{font-size:12px;color:var(--slate);}
+  .user-btn.diretor{grid-column:1/-1;background:var(--blue-light);}
+  .login-footer{margin-top:24px;font-size:11.5px;color:#94a1ad;text-align:center;}
+
+  /* ---------- APP SHELL ---------- */
+  #app{display:none;min-height:100vh;}
+  .shell{display:flex;min-height:100vh;}
+  nav.sidebar{
+    width:236px;flex-shrink:0;background:var(--navy);color:#cfe0f2;
+    display:flex;flex-direction:column;padding:22px 16px;
+    position:sticky;top:0;height:100vh;
+  }
+  .side-brand{display:flex;align-items:center;gap:10px;padding:0 6px 22px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:18px;}
+  .side-brand .mk{width:34px;height:34px;border-radius:9px;background:rgba(240,180,41,.15);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:600;}
+  .side-brand div{font-size:13px;line-height:1.25;font-weight:700;color:#fff;}
+  .side-brand span{display:block;font-weight:500;color:#9db3c8;font-size:11px;}
+  .nav-item{
+    display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;
+    color:#cfe0f2;text-decoration:none;font-size:14.5px;font-weight:600;cursor:pointer;
+    margin-bottom:3px;border:none;background:transparent;width:100%;text-align:left;
+  }
+  .nav-item:hover{background:rgba(255,255,255,.06);}
+  .nav-item.active{background:var(--gold);color:var(--navy);}
+  .nav-item .ico{width:18px;text-align:center;font-size:15px;}
+  .sidebar-spacer{flex:1;}
+  .side-user{border-top:1px solid rgba(255,255,255,.1);padding-top:14px;}
+  .side-user .who{font-size:13.5px;font-weight:700;color:#fff;}
+  .side-user .role{font-size:11.5px;color:#9db3c8;margin-bottom:10px;}
+  .switch-btn{font-size:12.5px;color:#9db3c8;background:none;border:none;cursor:pointer;padding:0;text-decoration:underline;}
+
+  main.content{flex:1;padding:30px 36px 60px;max-width:1180px;}
+  .topline{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;flex-wrap:wrap;gap:14px;}
+  .topline h1{font-size:26px;margin:0;color:var(--navy);font-weight:600;}
+  .topline p{margin:4px 0 0;color:var(--slate);font-size:14px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;border:none;border-radius:10px;
+    padding:11px 18px;font-size:14px;font-weight:700;cursor:pointer;
+    transition:transform .1s, box-shadow .15s;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--gold);color:var(--navy);}
+  .btn-primary:hover{box-shadow:0 4px 14px rgba(240,180,41,.4);}
+  .btn-ghost{background:var(--white);color:var(--navy);border:1.5px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--blue);}
+  .btn-danger{background:var(--red-light);color:var(--red);}
+  .btn-danger:hover{background:#f6d7d3;}
+  .btn:disabled{opacity:.45;cursor:not-allowed;}
+
+  /* dashboard cards */
+  .stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:26px;}
+  .stat-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);}
+  .stat-card .num{font-family:'Fraunces',serif;font-size:32px;font-weight:600;color:var(--navy);}
+  .stat-card .lbl{font-size:12.5px;color:var(--slate);font-weight:600;}
+
+  .grid-2{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;align-items:start;}
+  @media (max-width:920px){.grid-2{grid-template-columns:1fr;}}
+
+  .panel{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;}
+  .panel h2{font-size:16.5px;margin:0 0 16px;color:var(--navy);font-weight:600;}
+
+  .mat-row{
+    display:flex;align-items:center;gap:14px;padding:13px 8px;border-bottom:1px solid var(--line);cursor:pointer;
+  }
+  .mat-row:last-child{border-bottom:none;}
+  .mat-row:hover{background:#faf8f3;}
+  .mat-row .avatar{width:38px;height:38px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0;}
+  .mat-row .info{flex:1;min-width:0;}
+  .mat-row .name{font-weight:700;font-size:14.5px;color:var(--ink);}
+  .mat-row .step{font-size:12.5px;color:var(--slate);}
+  .progress-track{width:90px;height:6px;border-radius:4px;background:var(--line);overflow:hidden;flex-shrink:0;}
+  .progress-fill{height:100%;background:var(--gold);border-radius:4px;}
+  .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;flex-shrink:0;}
+  .badge.andamento{background:var(--blue-light);color:var(--blue);}
+  .badge.finalizada{background:var(--green-light);color:var(--green);}
+
+  .empty{padding:30px 10px;text-align:center;color:var(--slate);font-size:13.5px;}
+
+  /* pie chart legend */
+  .legend{display:flex;flex-direction:column;gap:8px;margin-top:14px;}
+  .legend-item{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink);}
+  .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+  .legend-item .cnt{margin-left:auto;font-weight:700;color:var(--navy);}
+
+  /* new enrollment */
+  .form-card{max-width:480px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:13px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+  .field input{
+    width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14.5px;
+    font-family:inherit;color:var(--ink);background:var(--white);
+  }
+  .field input:focus{outline:none;border-color:var(--gold);}
+  .hint{font-size:12px;color:var(--slate);margin-top:6px;}
+
+  /* detail / checklist */
+  .detail-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px;gap:16px;flex-wrap:wrap;}
+  .detail-header .aluno-nome{font-size:24px;font-weight:600;color:var(--navy);margin:0 0 4px;}
+  .detail-header .meta{font-size:13px;color:var(--slate);}
+  .checklist{display:flex;flex-direction:column;}
+  .step-row{
+    display:flex;align-items:flex-start;gap:14px;padding:16px 6px;border-bottom:1px solid var(--line);
+  }
+  .step-row:last-child{border-bottom:none;}
+  .step-check{
+    width:26px;height:26px;border-radius:50%;border:2px solid var(--line);flex-shrink:0;margin-top:2px;
+    display:flex;align-items:center;justify-content:center;font-size:14px;color:transparent;
+    background:var(--white);cursor:default;transition:all .15s;
+  }
+  .step-check.done{background:var(--green);border-color:var(--green);color:#fff;}
+  .step-check.ready{border-color:var(--gold);cursor:pointer;}
+  .step-check.ready:hover{background:#fff8e6;}
+  .step-body{flex:1;}
+  .step-title{font-weight:700;font-size:14.5px;color:var(--ink);}
+  .step-title.done{color:var(--slate);}
+  .step-role{font-size:11.5px;font-weight:700;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:20px;display:inline-block;margin-top:4px;}
+  .step-log{font-size:12px;color:var(--green);margin-top:5px;font-weight:600;}
+  .step-cta{margin-top:9px;}
+  .step-cta button{
+    background:var(--gold);color:var(--navy);border:none;border-radius:8px;padding:8px 14px;
+    font-size:13px;font-weight:700;cursor:pointer;
+  }
+  .step-cta button:hover{box-shadow:0 3px 10px rgba(240,180,41,.4);}
+
+  .archive-search{display:flex;gap:10px;margin-bottom:18px;}
+  .archive-search input{
+    flex:1;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;font-family:inherit;
+  }
+  .archive-search input:focus{outline:none;border-color:var(--gold);}
+
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+    background:var(--navy);color:#fff;padding:12px 20px;border-radius:10px;font-size:13.5px;font-weight:600;
+    box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:opacity .2s, transform .2s;z-index:999;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
+
+  .modal-bg{position:fixed;inset:0;background:rgba(15,42,74,.45);display:none;align-items:center;justify-content:center;z-index:998;padding:20px;}
+  .modal-bg.show{display:flex;}
+  .modal{background:var(--white);border-radius:16px;padding:26px;max-width:380px;width:100%;box-shadow:var(--shadow);}
+  .modal h3{margin:0 0 8px;color:var(--navy);font-size:17px;}
+  .modal p{margin:0 0 20px;color:var(--slate);font-size:14px;line-height:1.5;}
+  .modal-actions{display:flex;gap:10px;justify-content:flex-end;}
+
+  .viewonly-banner{background:var(--blue-light);color:var(--blue);font-size:12.5px;font-weight:700;padding:10px 14px;border-radius:10px;margin-bottom:20px;}
+
+  #mobile-topbar{display:none;}
+  @media (max-width:760px){
+    .shell{flex-direction:column;}
+    nav.sidebar{
+      width:100%;height:auto;position:sticky;top:0;flex-direction:row;align-items:center;
+      padding:12px 14px;z-index:50;overflow-x:auto;
+    }
+    .side-brand{display:none;}
+    .sidebar-spacer{display:none;}
+    .side-user{display:none;}
+    .nav-item{white-space:nowrap;margin-bottom:0;}
+    main.content{padding:20px 16px 50px;}
+    #user-list{grid-template-columns:1fr;}
+    .grid-2{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== LOGIN ===================== -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="brand-mark">A</div>
+    <h1>Matrículas · Colégio Adventista de Paulínia</h1>
+    <p class="sub">Selecione seu nome para entrar no painel de acompanhamento.</p>
+    <div id="user-list"></div>
+    <div class="login-footer">Acompanhamento interno de novas matrículas</div>
+  </div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div id="app">
+  <div class="shell">
+    <nav class="sidebar">
+      <div class="side-brand">
+        <div class="mk">A</div>
+        <div>Colégio Adventista<span>de Paulínia</span></div>
+      </div>
+      <button class="nav-item active" data-view="dashboard"><span class="ico">◆</span> Painel</button>
+      <button class="nav-item" data-view="nova" id="nav-nova"><span class="ico">＋</span> Nova matrícula</button>
+      <button class="nav-item" data-view="arquivo"><span class="ico">▤</span> Arquivo</button>
+      <div class="sidebar-spacer"></div>
+      <div class="side-user">
+        <div class="who" id="side-who">—</div>
+        <div class="role" id="side-role">—</div>
+        <button class="switch-btn" id="switch-user">Trocar usuário</button>
+      </div>
+    </nav>
+
+    <main class="content" id="content"></main>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <h3 id="modal-title">Excluir matrícula?</h3>
+    <p id="modal-text">Essa ação não pode ser desfeita.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="modal-cancel">Cancelar</button>
+      <button class="btn btn-danger" id="modal-confirm">Excluir</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc,
+  serverTimestamp, query, orderBy
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+import { firebaseConfig } from './firebase-config.js';
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const matriculasRef = collection(db, "matriculas");
+
+// ---------------------------------------------------------------
+// DADOS FIXOS
+// ---------------------------------------------------------------
+const ETAPAS = [
+  { id:1,  nome:"Matrícula Nova", resp:"Gestora" },
+  { id:2,  nome:"Pagamento recebido", resp:"Gestora" },
+  { id:3,  nome:"Documentos básicos recebidos (RG e CPF dos responsáveis e do aluno)", resp:"Gestora" },
+  { id:4,  nome:"Entrega da Ficha de Saúde", resp:"Gestora" },
+  { id:5,  nome:"Entrega do Formulário de Boas-vindas", resp:"Gestora" },
+  { id:6,  nome:"Cadastrar aluno e gerar matrícula no 7Edu", resp:"Secretaria" },
+  { id:7,  nome:"Baixar pagamento", resp:"Tesouraria" },
+  { id:8,  nome:"Aceite", resp:"Secretaria" },
+  { id:9,  nome:"Documentos complementares", resp:"Secretaria" },
+  { id:10, nome:"Matrícula finalizada – Prontuário", resp:"Secretaria" },
+];
+
+const USERS = [
+  { nome:"Alexandre", papel:"Diretor", nivel:"consulta" },
+  { nome:"Alice", papel:"Secretaria", nivel:"total" },
+  { nome:"Daniel", papel:"Tesouraria", nivel:"total", excluir:true },
+  { nome:"Heloisa", papel:"Secretaria", nivel:"total" },
+  { nome:"Jessika", papel:"Secretaria", nivel:"total" },
+  { nome:"Keroli", papel:"Secretaria", nivel:"total" },
+  { nome:"Magali", papel:"Secretaria", nivel:"total" },
+  { nome:"Mayara", papel:"Gestora de Relacionamento", nivel:"total", excluir:true },
+]; // já em ordem alfabética
+
+const PIE_COLORS = ["#1e4976","#f0b429","#2d9d6f","#c0392b","#7a5cc9","#0f2a4a","#d98a3d","#3d9ab5","#a3475f","#6b7f2e"];
+
+// ---------------------------------------------------------------
+// ESTADO
+// ---------------------------------------------------------------
+let currentUser = null;
+let currentView = "dashboard";
+let matriculas = [];
+let openMatriculaId = null;
+let pendingDelete = null;
+
+function fmtData(ts){
+  if(!ts) return "";
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleDateString('pt-BR') + " às " + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+}
+function iniciais(nome){
+  return nome.split(" ").filter(Boolean).slice(0,2).map(p=>p[0]).join("").toUpperCase();
+}
+function etapaAtualIndex(mat){
+  return mat.etapas.findIndex(e=>!e.concluida);
+}
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+// ---------------------------------------------------------------
+// LOGIN
+// ---------------------------------------------------------------
+function renderLogin(){
+  const list = document.getElementById('user-list');
+  list.innerHTML = "";
+  USERS.forEach(u=>{
+    const btn = document.createElement('button');
+    btn.className = 'user-btn' + (u.papel==='Diretor' ? ' diretor' : '');
+    btn.innerHTML = `<span class="nm">${u.nome}</span><span class="rl">${u.papel}</span>`;
+    btn.onclick = ()=>login(u);
+    list.appendChild(btn);
+  });
+}
+function login(u){
+  currentUser = u;
+  localStorage.setItem('matriculas_user', u.nome);
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('side-who').textContent = u.nome;
+  document.getElementById('side-role').textContent = u.papel;
+  document.getElementById('nav-nova').style.display = u.nivel==='consulta' ? 'none' : 'flex';
+  setView('dashboard');
+}
+document.getElementById('switch-user').onclick = ()=>{
+  localStorage.removeItem('matriculas_user');
+  location.reload();
+};
+
+// ---------------------------------------------------------------
+// NAVEGAÇÃO
+// ---------------------------------------------------------------
+document.querySelectorAll('.nav-item[data-view]').forEach(btn=>{
+  btn.addEventListener('click', ()=> setView(btn.dataset.view));
+});
+function setView(view){
+  currentView = view;
+  openMatriculaId = null;
+  document.querySelectorAll('.nav-item[data-view]').forEach(b=>{
+    b.classList.toggle('active', b.dataset.view===view);
+  });
+  render();
+}
+
+// ---------------------------------------------------------------
+// FIRESTORE — CRIAR / ATUALIZAR / EXCLUIR
+// ---------------------------------------------------------------
+async function criarMatricula(nomeAluno){
+  const etapas = ETAPAS.map(e=>({ id:e.id, concluida:false, concluidoPor:null, concluidoEm:null }));
+  await addDoc(matriculasRef, {
+    aluno: nomeAluno.trim(),
+    status: "andamento",
+    criadoPor: currentUser.nome,
+    criadoEm: serverTimestamp(),
+    finalizadoEm: null,
+    etapas
+  });
+  showToast("Matrícula de " + nomeAluno.trim() + " iniciada");
+  setView('dashboard');
+}
+
+async function concluirEtapa(mat, etapaId){
+  const novasEtapas = mat.etapas.map(e=>{
+    if(e.id === etapaId){
+      return { ...e, concluida:true, concluidoPor: currentUser.nome, concluidoEm: new Date() };
+    }
+    return e;
+  });
+  const todasFeitas = novasEtapas.every(e=>e.concluida);
+  const ref = doc(db, "matriculas", mat._id);
+  await updateDoc(ref, {
+    etapas: novasEtapas.map(e=>({
+      id:e.id, concluida:e.concluida, concluidoPor:e.concluidoPor,
+      concluidoEm: e.concluidoEm instanceof Date ? serverTimestampSafe(e.concluidoEm) : e.concluidoEm
+    })),
+    status: todasFeitas ? "finalizada" : "andamento",
+    finalizadoEm: todasFeitas ? serverTimestamp() : null
+  });
+  showToast(todasFeitas ? "Matrícula finalizada e enviada ao arquivo" : "Etapa concluída");
+}
+// Firestore não aceita serverTimestamp() dentro de um array diretamente,
+// então gravamos a data/hora local do dispositivo para os itens do checklist.
+function serverTimestampSafe(d){ return d; }
+
+async function excluirMatricula(id){
+  await deleteDoc(doc(db, "matriculas", id));
+  showToast("Matrícula excluída");
+  setView('dashboard');
+}
+
+// ---------------------------------------------------------------
+// LISTENER EM TEMPO REAL
+// ---------------------------------------------------------------
+const q = query(matriculasRef, orderBy("criadoEm","desc"));
+onSnapshot(q, snap=>{
+  matriculas = snap.docs.map(d=>({ _id:d.id, ...d.data() }));
+  render();
+}, err=>{
+  console.error(err);
+  document.getElementById('content').innerHTML =
+    `<div class="panel"><h2>Não foi possível conectar ao banco de dados</h2>
+     <p style="color:var(--slate);font-size:13.5px;">Confira se o arquivo <code>firebase-config.js</code>
+     foi preenchido corretamente e se as regras do Firestore permitem acesso.
+     Detalhe técnico: ${err.message}</p></div>`;
+});
+
+// ---------------------------------------------------------------
+// RENDER PRINCIPAL
+// ---------------------------------------------------------------
+function render(){
+  if(!currentUser) return;
+  const content = document.getElementById('content');
+  if(openMatriculaId){ content.innerHTML = viewDetalhe(openMatriculaId); attachDetalheEvents(); return; }
+  if(currentView === 'dashboard'){ content.innerHTML = viewDashboard(); attachDashboardEvents(); return; }
+  if(currentView === 'nova'){ content.innerHTML = viewNova(); attachNovaEvents(); return; }
+  if(currentView === 'arquivo'){ content.innerHTML = viewArquivo(); attachArquivoEvents(); return; }
+}
+
+// ---------------------------------------------------------------
+// VIEW: DASHBOARD
+// ---------------------------------------------------------------
+function viewDashboard(){
+  const ativas = matriculas.filter(m=>m.status==='andamento');
+  const finalizadas = matriculas.filter(m=>m.status==='finalizada');
+
+  // distribuição por etapa atual
+  const dist = ETAPAS.map(e=>({...e, count:0}));
+  ativas.forEach(m=>{
+    const idx = etapaAtualIndex(m);
+    if(idx>=0) dist[idx].count++;
+  });
+  const totalDist = dist.reduce((s,d)=>s+d.count,0) + finalizadas.length;
+
+  const banner = currentUser.nivel==='consulta'
+    ? `<div class="viewonly-banner">Acesso de consulta — visualização do painel e do arquivo</div>` : '';
+
+  return `
+    ${banner}
+    <div class="topline">
+      <div>
+        <h1>Painel de matrículas</h1>
+        <p>Acompanhamento em tempo real do processo de matrícula de novos alunos</p>
+      </div>
+      ${currentUser.nivel!=='consulta' ? `<button class="btn btn-primary" id="btn-nova-topo">＋ Nova matrícula</button>` : ''}
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card"><div class="num">${ativas.length}</div><div class="lbl">Em andamento</div></div>
+      <div class="stat-card"><div class="num">${finalizadas.length}</div><div class="lbl">Finalizadas (100%)</div></div>
+      <div class="stat-card"><div class="num">${matriculas.length}</div><div class="lbl">Total no sistema</div></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="panel">
+        <h2>Matrículas em andamento</h2>
+        ${ativas.length===0 ? `<div class="empty">Nenhuma matrícula em andamento no momento.</div>` :
+          ativas.map(m=>rowMatricula(m)).join('')}
+      </div>
+
+      <div class="panel">
+        <h2>Distribuição por etapa</h2>
+        ${totalDist===0 ? `<div class="empty">Sem dados ainda.</div>` : pieChart(dist, finalizadas.length)}
+      </div>
+    </div>
+  `;
+}
+
+function rowMatricula(m){
+  const idx = etapaAtualIndex(m);
+  const doneCount = m.etapas.filter(e=>e.concluida).length;
+  const pct = Math.round((doneCount/ETAPAS.length)*100);
+  const etapaLabel = idx>=0 ? ETAPAS[idx].nome : "Finalizada";
+  return `
+    <div class="mat-row" data-id="${m._id}">
+      <div class="avatar">${iniciais(m.aluno)}</div>
+      <div class="info">
+        <div class="name">${m.aluno}</div>
+        <div class="step">${etapaLabel}</div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <span class="badge ${m.status==='finalizada'?'finalizada':'andamento'}">${m.status==='finalizada'?'Finalizada':doneCount+'/'+ETAPAS.length}</span>
+    </div>
+  `;
+}
+
+function pieChart(dist, finalizadasCount){
+  const slices = dist.filter(d=>d.count>0).map((d,i)=>({label:d.nome, count:d.count, color:PIE_COLORS[d.id-1]}));
+  if(finalizadasCount>0) slices.push({label:"Finalizada", count:finalizadasCount, color:"#2d9d6f"});
+  const total = slices.reduce((s,x)=>s+x.count,0) || 1;
+  let acc = 0;
+  const r = 70, cx=90, cy=90;
+  const paths = slices.map(s=>{
+    const start = acc/total*2*Math.PI;
+    acc += s.count;
+    const end = acc/total*2*Math.PI;
+    const large = (end-start) > Math.PI ? 1 : 0;
+    const x1 = cx + r*Math.sin(start), y1 = cy - r*Math.cos(start);
+    const x2 = cx + r*Math.sin(end), y2 = cy - r*Math.cos(end);
+    return `<path d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${large} 1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${s.color}" stroke="#fff" stroke-width="2"/>`;
+  }).join('');
+  const legend = slices.map(s=>`
+    <div class="legend-item">
+      <span class="legend-dot" style="background:${s.color}"></span>
+      <span>${s.label}</span>
+      <span class="cnt">${s.count}</span>
+    </div>`).join('');
+  return `
+    <div style="display:flex;justify-content:center;">
+      <svg width="180" height="180" viewBox="0 0 180 180">${paths}</svg>
+    </div>
+    <div class="legend">${legend}</div>
+  `;
+}
+
+function attachDashboardEvents(){
+  document.querySelectorAll('.mat-row').forEach(el=>{
+    el.onclick = ()=>{ openMatriculaId = el.dataset.id; render(); };
+  });
+  const btn = document.getElementById('btn-nova-topo');
+  if(btn) btn.onclick = ()=> setView('nova');
+}
+
+// ---------------------------------------------------------------
+// VIEW: NOVA MATRÍCULA
+// ---------------------------------------------------------------
+function viewNova(){
+  if(currentUser.nivel==='consulta'){
+    return `<div class="viewonly-banner">Seu acesso é somente consulta — sem permissão para criar matrículas.</div>`;
+  }
+  return `
+    <div class="topline"><div><h1>Nova matrícula</h1><p>Registre o aluno assim que a matrícula for fechada. As 10 etapas do processo são criadas automaticamente.</p></div></div>
+    <div class="panel form-card">
+      <div class="field">
+        <label for="input-aluno">Nome completo do aluno</label>
+        <input id="input-aluno" type="text" placeholder="Ex.: João Pedro da Silva Santos" autocomplete="off">
+        <div class="hint">Use o nome completo, como constará no registro.</div>
+      </div>
+      <button class="btn btn-primary" id="btn-criar" style="width:100%;justify-content:center;">Iniciar processo de matrícula</button>
+    </div>
+  `;
+}
+function attachNovaEvents(){
+  const btn = document.getElementById('btn-criar');
+  if(!btn) return;
+  const input = document.getElementById('input-aluno');
+  input.focus();
+  const submit = ()=>{
+    const val = input.value.trim();
+    if(val.length < 3){ showToast("Digite o nome completo do aluno"); return; }
+    criarMatricula(val);
+  };
+  btn.onclick = submit;
+  input.addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
+}
+
+// ---------------------------------------------------------------
+// VIEW: DETALHE / CHECKLIST
+// ---------------------------------------------------------------
+function viewDetalhe(id){
+  const mat = matriculas.find(m=>m._id===id);
+  if(!mat) return `<div class="empty">Matrícula não encontrada.</div>`;
+  const idx = etapaAtualIndex(mat);
+  const podeExcluir = currentUser.excluir === true;
+  const podeConcluir = currentUser.nivel !== 'consulta';
+
+  const steps = ETAPAS.map((e,i)=>{
+    const est = mat.etapas.find(x=>x.id===e.id);
+    const done = est && est.concluida;
+    const ready = !done && i===idx && podeConcluir;
+    return `
+      <div class="step-row">
+        <div class="step-check ${done?'done':''} ${ready?'ready':''}" data-etapa="${e.id}">${done?'✓':''}</div>
+        <div class="step-body">
+          <div class="step-title ${done?'done':''}">${e.nome}</div>
+          <span class="step-role">${e.resp}</span>
+          ${done ? `<div class="step-log">Concluído por ${est.concluidoPor} em ${fmtData(est.concluidoEm)}</div>` : ''}
+          ${ready ? `<div class="step-cta"><button data-etapa="${e.id}" class="btn-concluir">Marcar como concluída</button></div>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <button class="btn btn-ghost" id="btn-voltar" style="margin-bottom:18px;">← Voltar</button>
+    <div class="detail-header">
+      <div>
+        <div class="aluno-nome">${mat.aluno}</div>
+        <div class="meta">Iniciada por ${mat.criadoPor} em ${fmtData(mat.criadoEm)} ${mat.status==='finalizada' ? '· Finalizada em '+fmtData(mat.finalizadoEm) : ''}</div>
+      </div>
+      ${podeExcluir ? `<button class="btn btn-danger" id="btn-excluir">Excluir matrícula</button>` : ''}
+    </div>
+    <div class="panel">
+      <div class="checklist">${steps}</div>
+    </div>
+  `;
+}
+function attachDetalheEvents(){
+  const back = document.getElementById('btn-voltar');
+  if(back) back.onclick = ()=>{ openMatriculaId=null; render(); };
+
+  document.querySelectorAll('.step-check.ready, .btn-concluir').forEach(el=>{
+    el.onclick = ()=>{
+      const mat = matriculas.find(m=>m._id===openMatriculaId);
+      concluirEtapa(mat, parseInt(el.dataset.etapa,10));
+    };
+  });
+
+  const del = document.getElementById('btn-excluir');
+  if(del) del.onclick = ()=>{
+    const mat = matriculas.find(m=>m._id===openMatriculaId);
+    pendingDelete = mat._id;
+    document.getElementById('modal-title').textContent = 'Excluir matrícula?';
+    document.getElementById('modal-text').textContent = `A matrícula de "${mat.aluno}" será excluída permanentemente, incluindo todo o histórico de etapas. Essa ação não pode ser desfeita.`;
+    document.getElementById('modal-bg').classList.add('show');
+  };
+}
+
+// ---------------------------------------------------------------
+// VIEW: ARQUIVO
+// ---------------------------------------------------------------
+function viewArquivo(){
+  return `
+    <div class="topline"><div><h1>Arquivo</h1><p>Matrículas com o processo 100% concluído</p></div></div>
+    <div class="archive-search"><input id="busca-arquivo" type="text" placeholder="Buscar por nome do aluno..."></div>
+    <div class="panel" id="lista-arquivo"></div>
+  `;
+}
+function attachArquivoEvents(){
+  const input = document.getElementById('busca-arquivo');
+  const lista = document.getElementById('lista-arquivo');
+  function draw(){
+    const termo = input.value.trim().toLowerCase();
+    const finalizadas = matriculas
+      .filter(m=>m.status==='finalizada')
+      .filter(m=>m.aluno.toLowerCase().includes(termo));
+    lista.innerHTML = finalizadas.length===0
+      ? `<div class="empty">Nenhuma matrícula finalizada encontrada.</div>`
+      : finalizadas.map(m=>rowMatricula(m)).join('');
+    document.querySelectorAll('.mat-row').forEach(el=>{
+      el.onclick = ()=>{ openMatriculaId = el.dataset.id; render(); };
+    });
+  }
+  input.addEventListener('input', draw);
+  draw();
+}
+
+// ---------------------------------------------------------------
+// MODAL EXCLUSÃO
+// ---------------------------------------------------------------
+document.getElementById('modal-cancel').onclick = ()=>{
+  document.getElementById('modal-bg').classList.remove('show');
+  pendingDelete = null;
+};
+document.getElementById('modal-confirm').onclick = ()=>{
+  if(pendingDelete) excluirMatricula(pendingDelete);
+  document.getElementById('modal-bg').classList.remove('show');
+  pendingDelete = null;
+};
+
+// ---------------------------------------------------------------
+// INÍCIO
+// ---------------------------------------------------------------
+renderLogin();
+const savedName = localStorage.getItem('matriculas_user');
+if(savedName){
+  const u = USERS.find(x=>x.nome===savedName);
+  if(u) login(u);
+}
+</script>
+</body>
+</html>
