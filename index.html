@@ -308,7 +308,7 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
 import {
-  getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc,
+  getFirestore, collection, addDoc, onSnapshot, doc, setDoc, updateDoc, deleteDoc,
   serverTimestamp, query, orderBy, getDocs
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 import { firebaseConfig } from './firebase-config.js';
@@ -342,7 +342,7 @@ const USUARIOS_PADRAO = [
   { nome:"Jessika", papel:"Secretaria", nivel:"total", excluir:false, admin:false },
   { nome:"Keroli", papel:"Secretaria", nivel:"total", excluir:false, admin:false },
   { nome:"Magali", papel:"Secretaria", nivel:"total", excluir:false, admin:false },
-  { nome:"Mayara", papel:"Gestora de Relacionamento", nivel:"total", excluir:true, admin:false },
+  { nome:"Maiara", papel:"Gestora de Relacionamento", nivel:"total", excluir:true, admin:false },
 ];
 
 const PIE_COLORS = ["#1e4976","#f0b429","#2d9d6f","#c0392b","#7a5cc9","#0f2a4a","#d98a3d","#3d9ab5","#a3475f","#6b7f2e"];
@@ -409,12 +409,21 @@ async function hashSenha(senha, salt){
 // ---------------------------------------------------------------
 // USUÁRIOS — CARGA INICIAL / SEMENTE
 // ---------------------------------------------------------------
+function slugNome(nome){
+  return nome
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
 async function seedUsuariosSeNecessario(){
   try{
     const snap = await getDocs(usuariosRef);
     if(snap.empty){
       for(const u of USUARIOS_PADRAO){
-        await addDoc(usuariosRef, { ...u, ativo:true, senhaHash:null, senhaSalt:null });
+        // ID determinístico (baseado no nome) em vez de addDoc: mesmo que esta
+        // função rode mais de uma vez ao mesmo tempo (ex.: duas abas abrindo o
+        // site juntas), nunca cria duplicata — a segunda gravação só sobrescreve
+        // o mesmo documento.
+        await setDoc(doc(usuariosRef, slugNome(u.nome)), { ...u, ativo:true, senhaHash:null, senhaSalt:null }, { merge:true });
       }
     }
   }catch(e){ console.error("Falha ao criar usuários padrão:", e); }
